@@ -1,15 +1,14 @@
-console.log(__filename);
-console.log(__dirname);
+const EventEmitter = require('events');
 
-var url = 'http://mylogger.io/log';
-
-function log(message) {
-    // send an http request using the url above
-    console.log(message);
+// Logger class extends the EventEmitter class and this inherits the methods for event raising and event listening/handling
+class Logger extends EventEmitter {
+    // log method that raises the logging event
+    log(message) {
+        // Raise an event
+        this.emit('logging', message);
+    }
 }
 
 // export/expose the details we choose from the module
-module.exports.log = log;
+module.exports = Logger;
 
-// if we want to export only a single method of this module
-// module.exports = log;
