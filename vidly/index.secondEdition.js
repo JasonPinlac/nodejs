@@ -1,10 +1,22 @@
 const Joi = require('joi');
 const express = require('express');
+const logger = require('./logger');
+const authenticator = require('./authenticator');
+
 
 const app = express();
 
-// middleware
+// middleware function that takes a req object that either returns a res to the client or passes control to aonther middleware function
+// this function reads a request and if there is a JSON object in the body request it will parse the body of the request into a JSON object and then it will set req.body property
+// the request processing pipline starts with a request and will move through the pipline hitting all middleware functions until finally a response is sent to the client.
 app.use(express.json());
+
+// custom middleware function for logging
+// the next argument is reference to the next middleware function in the RPP.
+app.use(logger);
+
+// custom middleware function for authentication
+app.use(authenticator);
 
 let genres = [
     {id: 1, name: 'Adventure'},
